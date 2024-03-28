@@ -3,7 +3,8 @@
 export function ToyPreview({toy}) {
     return ( <>
         <h1>Name: {toy.name}</h1>
-        <p>Price: {toy.price}</p>
+        <p>Price: ${toy.price}</p>
+        <img src={toy.img} />
     </>
     )
 }

@@ -1,0 +1,12 @@
+.toy-list {
+    display: grid;
+    justify-items: center;
+}
+
+.toy-list > :nth-child(even) {
+    grid-column: 2;
+}
+
+.toy-list .toy-preview {
+    width: 400px;
+}

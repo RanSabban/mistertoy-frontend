@@ -9,7 +9,7 @@ export function ToyList({toys, onRemoveToy}) {
         <ul className="toy-list clean-list">
             {toys.map(toy => {
                 return (
-                    <Card variant="outlined" sx={{m: 1, padding:1}} className="toy-preview" key={toy._id}>
+                    <Card variant="outlined" sx={{m: 1, padding:1, boxShadow: 6, maxWidth: 400}} className="toy-preview" key={toy._id}>
                         <ToyPreview toy={toy}/>
                         <Button onClick={() => onRemoveToy(toy._id)}>Remove</Button>
                         <Button><Link to={`/toy/edit/${toy._id}`}>Edit</Link></Button>
