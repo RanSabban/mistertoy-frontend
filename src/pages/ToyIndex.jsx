@@ -5,6 +5,9 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions";
 import { ToyList } from "../cmps/ToyList";
 import { ToyFilter } from "../cmps/ToyFilter.jsx";
+import { Link } from "react-router-dom";
+import { toyService } from "../services/toy.service.js";
+import { Button } from "@mui/material";
 
 export function ToyIndex() {
 
@@ -12,8 +15,7 @@ export function ToyIndex() {
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
-
-    console.log(toys);
+    
     useEffect(() => {
         loadToys()
             .catch(err => {
@@ -38,10 +40,22 @@ export function ToyIndex() {
         setFilterBy(filterBy)
     }
 
+    function getNames() {
+        const toysToReturn = toys.map(toy => toy.name)
+        const uniqueToys = toysToReturn.reduce((acc, toy) => {
+            if (!acc.includes(toy)) {
+                acc.push(toy)
+            }
+            return acc
+        }, [])
+            return uniqueToys
+    }
+
     return (
         <section className="toy-index">
             <h1>Toy Collection</h1>
-            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy}/>
+            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy}  toysNames = {getNames()}/>
+            <Button variant="contained"><Link to={'/toy/edit'}>Add toy</Link></Button>
             {!isLoading ? 
             <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
         : <div className="loader"><span>III</span></div>

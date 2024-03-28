@@ -1,19 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { utilService } from "../services/util.service";
+import { Autocomplete, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { toyService } from "../services/toy.service"
+import SouthIcon from '@mui/icons-material/South';
+import NorthIcon from '@mui/icons-material/North';
 
-export function ToyFilter({ filterBy, onSetFilter }) {
+
+export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
     const [filterByToUpdate, setFilterByToUpdate] = useState({ ...filterBy })
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
+
+    const { sortByIc } = filterBy
 
     useEffect(() => {
         onSetFilter.current(filterByToUpdate)
     }, [filterByToUpdate])
 
     function handleChange({ target }) {
+        console.log(target);
         let { value, name: field, type } = target
         if (type === 'number') value = +value
-        console.log(value, field, type);
         setFilterByToUpdate((prevFilter) => ({ ...prevFilter, [field]: value }))
+    }
+
+    function handleChangeSearch({ target }) {
+        let { value } = target
+        console.log(value);
+        setFilterByToUpdate((prevFilter) => ({ ...prevFilter, ['name']: value }))
     }
 
     function handleChangeStock({ target }) {
@@ -29,65 +42,103 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
     function setSortBy(field) {
         const { sortBy } = filterByToUpdate
+        console.log(sortBy);
         if (field === 'createdAt') {
-            const diff = sortBy.createdAt ? 1 : -1
+            const diff = sortBy.createdAt === 1 ? -1 : 1
             setFilterByToUpdate((prevFilter) => ({ ...prevFilter, sortBy: { [field]: diff } }))
         }
         if (field === 'name') {
-            const diff = sortBy.name ? 1 : -1
+            const diff = sortBy.name === 1 ? -1 : 1
             setFilterByToUpdate((prevFilter) => ({ ...prevFilter, sortBy: { [field]: diff } }))
         }
         if (field === 'price') {
-            const diff = sortBy.price ? 1 : -1
+            const diff = sortBy.price === 1 ? -1 : 1
             setFilterByToUpdate((prevFilter) => ({ ...prevFilter, sortBy: { [field]: diff } }))
         }
     }
-    return (
+
+    if (!toysNames) return <div>loading</div>
+    return (<>
         <section className="toy-filter">
             <h1>Filter Toys</h1>
-            <form onSubmit={(ev) => ev.preventDefault()}>
-                <label htmlFor="filter-name">Name</label>
-                <input
+            <form className="form-filter-name-price" onSubmit={(ev) => ev.preventDefault()}>
+                <Autocomplete
+                    disablePortal
+                    id="filter-name"
+                    options={toysNames}
+                    sx={{ width: 300 }}
                     type="text"
                     name="name"
-                    id="filter-name"
-                    placeholder="By name"
-                    value={filterByToUpdate.name}
-                    onChange={handleChange}
+                    onInputChange={handleChangeSearch}
+                    onSelect={handleChangeSearch}
+                    renderInput={(params) => <TextField {...params} label="By Name" />}
                 />
-                <label htmlFor="filter-price">Price</label>
-                <input
-                    type="number"
+                <TextField
+                    className="filter-price"
+                    label="Price"
+                    variant="standard"
+                    inputProps={{ inputMode: 'numeric' }}
                     name="price"
                     id="filter-price"
-                    placeholder="By price"
                     value={filterByToUpdate.price}
                     onChange={handleChange}
+                    sx={{ width: 75, my: 2 }}
                 />
             </form>
-            <select onChange={(ev) => handleChangeStock(ev)} name="filter-stock" id="filter-stock">
-                <option value="all">All</option>
-                <option value="stock">In stock</option>
-                <option value="notstock">Not in stock</option>
-            </select>
-            <select onChange={(ev) => handleChangeLabel(ev)} name="filter-stock" id="filter-stock">
-                <option value="">Label</option>
-                <option value="On wheels">On wheels</option>
-                <option value="Box game">Box game</option>
-                <option value="Art">Art</option>
-                <option value="Baby">Baby</option>
-                <option value="Doll">Doll</option>
-                <option value="Puzzle">Puzzle</option>
-                <option value="Outdoor">Outdoor</option>
-                <option value="Battery Powered">Battery Powered</option>
-            </select>
+            <section className="label-and-stock">
+                <Box sx={{ minWidth: 120, my: 2 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="filter-stock">Stock</InputLabel>
+                        <Select
+                            labelId="filter-stock"
+                            id="select-filter-stock"
+                            value={filterBy.stock}
+                            label="Stock"
+                            onChange={handleChangeStock}
+                            autoWidth
+                            sx={{ width: 150 }}
+                        >
+                            <MenuItem value={'all'}>All</MenuItem>
+                            <MenuItem value={'stock'}>In stock</MenuItem>
+                            <MenuItem value={'notstock'}>Not in stock</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box sx={{ minWidth: 120, my: 2 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="filter-label">Label</InputLabel>
+                        <Select
+                            labelId="filter-label"
+                            id="select-filter-label"
+                            value={'all'}
+                            label="Label"
+                            onChange={handleChangeLabel}
+                            autoWidth
+                            sx={{ width: 150 }}
+                        >
+                            <MenuItem value={'all'}>All</MenuItem>
+                            <MenuItem value={'On wheels'}>On wheels</MenuItem>
+                            <MenuItem value={'Box game'}>Box game</MenuItem>
+                            <MenuItem value={'Art'}>Art</MenuItem>
+                            <MenuItem value={'Baby'}>Baby</MenuItem>
+                            <MenuItem value={'Doll'}>Doll</MenuItem>
+                            <MenuItem value={'Puzzle'}>Puzzle</MenuItem>
+                            <MenuItem value={'Outdoor'}>Outdoor</MenuItem>
+                            <MenuItem value={'Battery Powered'}>Battery Powered</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+            </section>
             <section className="toy-sort">
-                <button className="sort-btn" onClick={() => setSortBy('createdAt')}>Created</button>
-                <button className="sort-btn" onClick={() => setSortBy('name')}>Name</button>
-                <button className="sort-btn" onClick={() => setSortBy('price')}>Price</button>
+                <Button sx={{ mx: 1 }} className="sort-btn" onClick={() => setSortBy('createdAt')}>Created {filterBy.sortBy.createdAt ? (filterBy.sortBy.createdAt === 1 ? <SouthIcon /> : <NorthIcon />) : ''}</Button>
+                <Button sx={{ mx: 1 }} className="sort-btn" onClick={() => setSortBy('name')}>Name {filterBy.sortBy.name ? (filterBy.sortBy.name === 1 ? <SouthIcon /> : <NorthIcon />) : ''}</Button>
+                <Button sx={{ mx: 1 }} className="sort-btn" onClick={() => setSortBy('price')}>Price {filterBy.sortBy.price ? (filterBy.sortBy.price === 1 ? <SouthIcon /> : <NorthIcon />) : ''}</Button>
             </section>
         </section>
+        <section className="material-ui-test">
+
+        </section>
+    </>
     )
-
-
 }
+

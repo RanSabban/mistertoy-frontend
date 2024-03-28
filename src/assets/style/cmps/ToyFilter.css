@@ -1,0 +1,25 @@
+.toy-filter {
+    display: grid;
+}
+
+.toy-filter .form-filter-name-price {
+    display: grid;
+    justify-content: center;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.filter-price{
+    justify-self: center;
+}
+
+.label-and-stock{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    column-gap: 10px;
+}
+
+.toy-sort{
+    justify-self: center;
+}

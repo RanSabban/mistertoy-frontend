@@ -9,3 +9,8 @@
 @import 'base/layout.css';
 @import 'base/forms.css';
 
+/* CMPS */
+
+@import 'cmps/AppHeader.css';
+@import 'cmps/ToyFilter.css';
+

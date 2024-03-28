@@ -24,6 +24,7 @@ export function App() {
                             <Route element={<About />} path="/about" />
                             <Route element={<ToyIndex />} path="/toy" />
                             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
+                            <Route element={<ToyEdit />} path="/toy/edit/" />
                             <Route element={<ToyDetails />} path="/toy/details/:toyId" />
                         </Routes>
                     </main>

@@ -1,0 +1,25 @@
+.header-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.app-nav {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 10px;
+    align-items: center;
+}
+
+.app-nav a.active {
+    box-shadow: 0px 3px 0px 0px #78A083;
+    transition: 0.3s;
+}
+
+.app-nav a:hover {
+    box-shadow: 0px 3px 0px 0px #78A083;
+    transition: 0.3s;
+}

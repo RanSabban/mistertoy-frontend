@@ -1,0 +1,17 @@
+:root {
+    --main-bgc: #FEFBF6;
+
+    --midblue: #101720;
+    --deepbluenavy: #011222;
+    /* Dark slate grey */
+    --grey100: #0D1717;
+    /* Obsidian */
+    --grey200: #0B1215;
+    /* Charc grey */
+    --black100: #171717; 
+    /* Rich blk */
+    --black200: #020D19;
+    /* Oil blk */
+    --black300: #0C0C0C;
+
+}
