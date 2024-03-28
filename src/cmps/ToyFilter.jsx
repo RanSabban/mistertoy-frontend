@@ -6,6 +6,8 @@ import SouthIcon from '@mui/icons-material/South';
 import NorthIcon from '@mui/icons-material/North';
 
 
+
+
 export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
     const [filterByToUpdate, setFilterByToUpdate] = useState({ ...filterBy })
     onSetFilter = useRef(utilService.debounce(onSetFilter, 300))
@@ -37,6 +39,7 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
 
     function handleChangeLabel({ target }) {
         let { value } = target
+        console.log(value);
         setFilterByToUpdate((prevFilter) => ({ ...prevFilter, ['label']: value }))
     }
 
@@ -56,6 +59,8 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
             setFilterByToUpdate((prevFilter) => ({ ...prevFilter, sortBy: { [field]: diff } }))
         }
     }
+
+    console.log(filterByToUpdate);
 
     if (!toysNames) return <div>loading</div>
     return (<>
@@ -110,7 +115,7 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
                         <Select
                             labelId="filter-label"
                             id="select-filter-label"
-                            value={'all'}
+                            value={filterByToUpdate.label || 'All'}
                             label="Label"
                             onChange={handleChangeLabel}
                             autoWidth
@@ -135,9 +140,23 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
                 <Button sx={{ mx: 1 }} className="sort-btn" onClick={() => setSortBy('price')}>Price {filterBy.sortBy.price ? (filterBy.sortBy.price === 1 ? <SouthIcon /> : <NorthIcon />) : ''}</Button>
             </section>
         </section>
-        <section className="material-ui-test">
-
-        </section>
+        {/* <section className="material-ui-test">
+            <Autocomplete
+                multiple
+                id="tags-outlined"
+                options={top100Films}
+                getOptionLabel={(option) => option.title}
+                defaultValue={[top100Films[13]]}
+                filterSelectedOptions
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="filterSelectedOptions"
+                        placeholder="Favorites"
+                    />
+                )}
+            />
+        </section> */}
     </>
     )
 }

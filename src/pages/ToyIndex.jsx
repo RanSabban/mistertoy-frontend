@@ -15,14 +15,14 @@ export function ToyIndex() {
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
-    
+
     useEffect(() => {
         loadToys()
             .catch(err => {
                 console.log('index => cannot load toys', err);
                 throw err
             })
-    },[filterBy])
+    }, [filterBy])
 
     function onRemoveToy(toyId) {
         removeToy(toyId)
@@ -48,18 +48,22 @@ export function ToyIndex() {
             }
             return acc
         }, [])
-            return uniqueToys
+        return uniqueToys
     }
+
+    console.log(toys);
 
     return (
         <section className="toy-index">
             <h1>Toy Collection</h1>
-            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy}  toysNames = {getNames()}/>
+            <ToyFilter onSetFilter={onSetFilter} filterBy={filterBy} toysNames={getNames()} />
             <Button variant="contained"><Link to={'/toy/edit'}>Add toy</Link></Button>
-            {!isLoading ? 
-            <ToyList toys={toys} onRemoveToy={onRemoveToy}/>
-        : <div className="loader"><span>III</span></div>
-        }
+            {!isLoading ?
+                <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+                : <div className="loader"><span>III</span></div>
+            }
+            {!toys.length ? 
+            <div className="no-toys">No toys to show !</div> : <></>}
         </section>
     )
 }

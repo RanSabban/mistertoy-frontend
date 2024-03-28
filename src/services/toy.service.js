@@ -1,4 +1,5 @@
 import { httpService } from "./http.service"
+import { utilService } from "./util.service"
 
 export const toyService = {
     query,
@@ -7,10 +8,11 @@ export const toyService = {
     remove,
     getEmptyToy,
     getFilterBy,
+    getLabels
 }
 
 function query(filterBy) {
-    return httpService.get('toy', { params: {filterBy} })
+    return httpService.get('toy', { params: { filterBy } })
 }
 
 function getById(toyId) {
@@ -35,7 +37,7 @@ function getEmptyToy() {
         price: 100,
         labels: [],
         createdAt: Date.now(),
-        inStock: true
+        stock: utilService.getRandomIntInclusive(0,20)
     }
 }
 
@@ -46,6 +48,11 @@ function getFilterBy() {
         stock: 'all',
         sortBy: {
             price: -1
-        }
+        },
+        label: 'all'
     }
+}
+
+function getLabels() {
+    return ["Art","Baby","Battery Powered","Book","Kids","Musical","On wheels","Puzzle","Toy",]
 }

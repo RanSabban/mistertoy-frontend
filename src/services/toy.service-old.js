@@ -30,10 +30,10 @@ function query(filterBy = getFilterBy()) {
         toys = toys.filter(toy => toy.price >= filterBy.price)
       }
       if (filterBy.stock === 'stock') {
-        toys = toys.filter(toy => toy.inStock)
+        toys = toys.filter(toy => toy.stock)
       }
       if (filterBy.stock === 'notstock') {
-        toys = toys.filter(toy => !toy.inStock)
+        toys = toys.filter(toy => !toy.stock)
       }
       if (filterBy.label) {
         toys = toys.filter(toy => toy.labels.includes(filterBy.label))
@@ -75,7 +75,7 @@ function getEmptyToy() {
     price: 100,
     labels: [],
     createdAt: Date.now(),
-    inStock: true
+    stock: utilService.getRandomIntInclusive(0,20)
   }
 }
 
