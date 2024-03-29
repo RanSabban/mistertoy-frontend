@@ -12,6 +12,7 @@ export function AppHeader() {
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="/toy">Collections</NavLink>
                         <NavLink to="/about">About</NavLink>
+                        <NavLink to="/locations">Locations</NavLink>
                     </nav>
                 </nav>
             </section>

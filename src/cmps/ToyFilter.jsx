@@ -60,6 +60,13 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
         }
     }
 
+    function onSelectLebel(ev) {
+        console.log(ev);
+        // let { value, name:field} = target
+        console.log(ev.target.value);
+        
+    }
+
     console.log(filterByToUpdate);
 
     if (!toysNames) return <div>loading</div>
@@ -140,14 +147,16 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
                 <Button sx={{ mx: 1 }} className="sort-btn" onClick={() => setSortBy('price')}>Price {filterBy.sortBy.price ? (filterBy.sortBy.price === 1 ? <SouthIcon /> : <NorthIcon />) : ''}</Button>
             </section>
         </section>
-        {/* <section className="material-ui-test">
-            <Autocomplete
+        <section className="material-ui-test">
+            {/* <Autocomplete
                 multiple
                 id="tags-outlined"
-                options={top100Films}
-                getOptionLabel={(option) => option.title}
-                defaultValue={[top100Films[13]]}
+                options={toyService.getLabels()}
+                getOptionLabel={(option) => option}
+                // defaultValue={[top100Films[13]]}
+                
                 filterSelectedOptions
+                onChange={onSelectLebel}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -155,8 +164,8 @@ export function ToyFilter({ filterBy, onSetFilter, toysNames }) {
                         placeholder="Favorites"
                     />
                 )}
-            />
-        </section> */}
+            /> */}
+        </section>
     </>
     )
 }
