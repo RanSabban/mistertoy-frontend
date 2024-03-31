@@ -24,16 +24,17 @@ export function ToyIndex() {
             })
     }, [filterBy])
 
-    function onRemoveToy(toyId) {
-        removeToy(toyId)
-            .then(() => {
-                showSuccessMsg('Toy removed succesfully')
-            })
-            .catch(err => {
-                console.error('cannot remove toy', err)
-                showErrorMsg('Cannot remove toy sorry')
-                throw err
-            })
+    async function onRemoveToy(toyId) {
+
+        try {
+            await removeToy(toyId)
+            showSuccessMsg('Toy Removed succesfully')
+        }
+
+        catch (err) {
+            console.log('Cannot remove toy', err);
+            showErrorMsg('Cannot remove toy sorry')
+        }
     }
 
     function onSetFilter(filterBy) {
@@ -62,8 +63,8 @@ export function ToyIndex() {
                 <ToyList toys={toys} onRemoveToy={onRemoveToy} />
                 : <div className="loader"><span>III</span></div>
             }
-            {!toys.length ? 
-            <div className="no-toys">No toys to show !</div> : <></>}
+            {!toys.length ?
+                <div className="no-toys">No toys to show !</div> : <></>}
         </section>
     )
 }

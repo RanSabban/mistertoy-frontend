@@ -12,6 +12,8 @@ import { UserMsg } from './cmps/UserMsg'
 import { ToyEdit } from './pages/ToyEdit'
 import { ToyDetails } from './pages/ToyDetails'
 import { ToyLocations } from './pages/ToyLocations'
+import { UserProfile } from './pages/UserProfile'
+
 
 export function App() {
     return (
@@ -28,6 +30,7 @@ export function App() {
                             <Route element={<ToyEdit />} path="/toy/edit/" />
                             <Route element={<ToyDetails />} path="/toy/details/:toyId" />
                             <Route element={<ToyLocations />} path="/locations" />
+                            <Route element={<UserProfile />} path="/user/:userId" />
                         </Routes>
                     </main>
                     <UserMsg/>

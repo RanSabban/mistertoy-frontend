@@ -16,13 +16,16 @@ export function ToyEdit() {
         if (toyId) loadToy()
     }, [])
 
-    function loadToy() {
-        toyService.getById(toyId)
-            .then((toy) => setToyToEdit(toy))
-            .catch(err => {
-                console.error('cannot load toy to edit', err);
-                navigate('/toy')
-            })
+    async function loadToy() {
+        try {
+            toy = toyService.getById(toyId)
+            setToyToEdit(toy)
+        }
+        catch (err){
+            console.log('cannot load toy to edit', err)
+            navigate('/toy')
+        }
+
     }
 
     function handleChange({ target }) {
@@ -31,21 +34,21 @@ export function ToyEdit() {
         setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }))
     }
 
-    function onSaveToy(ev) {
+    async function onSaveToy(ev) {
         ev.preventDefault()
         if (!toyToEdit.price || !toyToEdit.name) {
             showErrorMsg('Please fill all fields')
             return
         }
-        saveToy(toyToEdit)
-            .then(() => {
-                showSuccessMsg('Toy saved succesfully')
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.error('Cannot save toy', err);
-                showErrorMsg('Cannot save toy')
-            })
+        try {
+            await saveToy(toyToEdit)
+            showSuccessMsg('Toy saved succesfully')
+            navigate('/toy')
+        }
+        catch (err) {
+            console.log('Cannot save toy', err);
+            showErrorMsg('Cannot save toy')
+        }
     }
 
 
